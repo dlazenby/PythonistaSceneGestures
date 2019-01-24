@@ -29,10 +29,7 @@ class GestureHandler(Consts):
 		self.parent_scene = parent
 		if not isinstance(parent, scene.Scene):
 			raise TypeError('parent must be a Scene object!')
-		if 'visible' in kwargs:
-			self.visible = kwargs.get('visible')
-		else:
-			self.visible = True #False
+		self.visible = kwargs.get('visible', True)  # False
 		self.timer = Timer()
 		self.recognizers = []
 		self.reset()
@@ -112,10 +109,10 @@ class GestureHandler(Consts):
 		time = T.time()
 		#Update the touch collection
 		updated = False
-		for touch_key in touches.keys():
-			if touch_key in self.touches:
+		for key, value in touches.items():
+			if key in self.touches:
 				updated = True
-				self.touches[touch_key].update(touches[touch_key].location, time)
+				self.touches[key].update(value.location, time)
 		if updated:
 			self.change_state(self.CHANGED)
 	# <><><><><><><><><><><><><><><><><><><><><><><><>
